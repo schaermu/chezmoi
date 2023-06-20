@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+tools_apt=(
+    git
+    direnv
+    htop
+    zsh
+    zsh-syntax-highlighting
+    ripgrep
+    jq
+    age
+    exa
+)
+
+sudo apt-get update && sudo apt-get install -y "${tools_apt[@]}"
+sudo chsh -s /usr/bin/zsh $(whoami)
+
+# starship prompt
+curl -sS https://starship.rs/install.sh | sh -s -- --yes
+
+# antigen
+curl -L git.io/antigen > antigen.zsh

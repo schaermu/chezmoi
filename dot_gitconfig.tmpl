@@ -1,0 +1,18 @@
+{{ if eq .chezmoi.hostname .hosts.work }}
+[user]
+	name = Stefan Schärmeli, IT12.1
+	email = stefan.schaermeli@post.ch
+
+[http]
+	proxy = http://10.227.233.54:3128
+
+[https]
+	proxy = http://10.227.233.54:3128
+
+[credential]
+	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+{{ else }}
+[user]
+	name = Stefan Schärmeli
+	email = info@schaermu.ch
+{{ end }}
