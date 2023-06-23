@@ -1,2 +1,27 @@
+# Alias ls/ll to exa.
 alias ls='exa -l --group-directories-first --color=auto --icons --no-permissions --no-user'
 alias ll='exa -lahF --group-directories-first --color=auto --icons'
+
+# Make file commands verbose.
+alias cp='cp -v';
+alias mv='mv -v';
+
+# Create parent directories on demand.
+alias mkdir='mkdir -pv'
+
+# Display drives and space in human readable format.
+alias df='df -h'
+
+# Print disk usage per directory non-recursively, in human readable format.
+alias du='du -h -d1'
+
+# Improve top with modern alternatives.
+if type 'atop' &> /dev/null; then
+  alias top='atop'
+elif type 'htop' &> /dev/null; then
+  alias top='htop'
+elif type 'ntop' &> /dev/null; then
+  if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
+    alias top='ntop'
+  fi
+fi

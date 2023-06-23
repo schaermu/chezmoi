@@ -1,0 +1,12 @@
+# search hidden files
+--hidden
+
+# exclude certain dirs
+-g "!{node_modules,.git}"
+
+# limit line-length
+--max-columns=150
+--max-columns-preview
+
+# make search case insensitive
+--smart-case
