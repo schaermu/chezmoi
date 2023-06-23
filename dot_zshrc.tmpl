@@ -32,11 +32,13 @@ source ~/.shell_aliases
 # Bring in direnv hooks.
 eval "$(direnv hook zsh)"
 
+{{- if .wsl }}
 # fix for WSL/WT to keep the current path (https://docs.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory)
 keep_current_path() {
   printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
 }
 precmd_functions+=(keep_current_path)
+{{- end }}
 
 # initialize starship prompt
 eval "$(starship init zsh)"
