@@ -10,6 +10,7 @@ SAVEHIST=1000
 setopt autocd extendedglob
 bindkey -e
 
+# pull in asdf
 zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit
@@ -20,7 +21,7 @@ source ~/antigen.zsh
 antigen use oh-my-zsh
 antigen bundle git
 antigen bundle pip
-antigen bundle asdf
+antigen bundle asdf-direnv
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
@@ -30,7 +31,7 @@ source ~/.zshenv
 source ~/.shell_aliases
 
 # Bring in direnv hooks.
-eval "$(direnv hook zsh)"
+eval "$($ASDF_DIRENV_BIN hook zsh)"
 
 {{- if .wsl }}
 # fix for WSL/WT to keep the current path (https://docs.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory)

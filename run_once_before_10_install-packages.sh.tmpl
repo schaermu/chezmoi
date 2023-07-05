@@ -12,10 +12,31 @@ tools_apt=(
 )
 
 sudo apt-get update && sudo apt-get install -y "${tools_apt[@]}"
-sudo chsh -s /usr/bin/zsh $(whoami)
+if [[ $SHELL != *"zsh"* ]]; then
+    sudo chsh -s /usr/bin/zsh $(whoami)
+fi
 
 # starship prompt
-curl -sS https://starship.rs/install.sh | sh -s -- --yes
+if [[ -f "/usr/local/bin/starship" ]]; then
+    echo "Skipping starship download..."
+else
+    curl -sS https://starship.rs/install.sh | sh -s -- --yes
+fi
 
 # antigen
-curl -L git.io/antigen > antigen.zsh
+if [[ -f "{{ .chezmoi.homeDir }}/antigen.zsh" ]]; then
+    echo "Skipping antigen download..."
+else
+    curl -L git.io/antigen > antigen.zsh
+fi
+
+# asdf
+if [[ -f "{{ .chezmoi.homeDir }}/.asdf" ]]; then
+    echo "Skipping asdf download..."
+else
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
+
+    # direnv plugin installation
+    {{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin-add direnv
+    {{ .chezmoi.homeDir }}/.asdf/bin/asdf direnv setup --no-touch-rc-file --shell zsh --version system
+fi
