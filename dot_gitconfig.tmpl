@@ -1,20 +1,25 @@
 {{ if eq .chezmoi.hostname .hosts.work }}
 [user]
-	name = Stefan Schärmeli, IT12.1
-	email = stefan.schaermeli@post.ch
+name = Stefan Schärmeli, IT12.1
+email = stefan.schaermeli@post.ch
+
+[includeIf "gitdir:~/projects/privat/"]
+path = ~/.gitconfig.d/personal
+[includeIf "gitdir:~/.local/share/chezmoi/"]
+path = ~/.gitconfig.d/personal
 {{ else }}
 [user]
-	name = Stefan Schärmeli
-	email = info@schaermu.ch
+name = Stefan Schärmeli
+email = info@schaermu.ch
 {{ end }}
 [credential]
-	helper = store
+helper = store
 
 [filter "lfs"]
-    process = git-lfs filter-process
-    required = true
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
+process = git-lfs filter-process
+required = true
+clean = git-lfs clean -- %f
+smudge = git-lfs smudge -- %f
 
 [init]
-	defaultBranch = main
+defaultBranch = main
