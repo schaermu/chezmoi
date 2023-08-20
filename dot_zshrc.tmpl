@@ -39,6 +39,9 @@ keep_current_path() {
   printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
 }
 precmd_functions+=(keep_current_path)
+
+# set DISPLAY to wsl's automatically assigned nameserver (aka localhost)
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
 {{- end }}
 
 # initialize starship prompt
