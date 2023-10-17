@@ -1,3 +1,6 @@
+# sudo alias hack
+alias sudo='sudo '
+
 # Alias ls/ll to exa.
 alias ls='exa -l --group-directories-first --color=auto --icons --no-permissions --no-user'
 alias ll='exa -lahF --group-directories-first --color=auto --icons'
@@ -6,6 +9,28 @@ alias ll='exa -lahF --group-directories-first --color=auto --icons'
 alias fatboy='ssh -p 22222 192.168.1.11'
 {{ else if eq .chezmoi.hostname .hosts.work }}
 alias code='NODE_TLS_REJECT_UNAUTHORIZED=0 code'
+{{- end }}
+
+{{- if eq .chezmoi.hostname .hosts.kali }}
+# fix weird error on kali, remap code to code-oss
+alias code='code-oss --disable-keytar'
+
+# add pentest-specific aliases for different tools
+alias me='echo $(ifconfig tun0 | grep "inet " | cut -b 9- | cut  -d" " -f2)'
+
+# network
+alias nmapfull='sudo nmap -sV -sC -O -p- -n -Pn'
+alias nmapfast='sudo nmap -sV -sC -O -T4 -n -Pn'
+
+# enum
+alias dirscan="ffuf -c -w $dirmed -u"
+alias vhostscan="gobuster vhost -w /usr/share/wordlists/amass/subdomains-top1mil-5000.txt -u"
+
+# misc
+alias cme=crackmapexec
+alias oso=onesixtyone
+alias h2t="html2text -style pretty"
+alias e4l="enum4linux -a"
 {{- end }}
 
 # Make file commands verbose.

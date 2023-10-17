@@ -2,6 +2,19 @@ export ASDF_DIRENV_BIN="/usr/bin/direnv"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.asdf/bin"
 
+
+{{- if ne .chezmoi.hostname .hosts.kali }}
+export EDITOR="code --wait"
+{{- else }}
+export EDITOR="code-oss --wait --disable-keytar"
+{{- end }}
+
 {{- if eq .chezmoi.hostname .hosts.work }}
 export NODE_EXTRA_CA_CERTS="/usr/local/share/ca-certificates/post-certs/swisspost-web-proxy-ca-g2.crt"
 {{- end }}
+
+{{- if eq .chezmoi.hostname .hosts.kali }}
+export dirsmall='/usr/share/wordlists/dirbuster/directory-list-2.3-small.txt'
+export dirmed='/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt'
+export rockyou='/usr/share/wordlists/rockyou.txt'
+{{- end}}
