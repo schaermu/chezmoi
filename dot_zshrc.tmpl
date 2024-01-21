@@ -26,6 +26,15 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
+# bring in auto completion for kubectl and helm
+source <(kubectl completion zsh)
+source <(helm completion zsh)
+
+# set up rust
+if test -f "$HOME/.cargo/env"; then
+  source "$HOME/.cargo/env"
+fi
+
 # Bring in env vars and aliases.
 source ~/.zshenv
 source ~/.shell_aliases
