@@ -11,6 +11,7 @@ setopt autocd extendedglob
 bindkey -e
 
 # pull in asdf
+fpath+=~/.zfunc
 zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit
@@ -27,8 +28,12 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen apply
 
 # bring in auto completion for kubectl and helm
-source <(kubectl completion zsh)
-source <(helm completion zsh)
+if [[ $commands[kubectl] ]]; then
+  source <(kubectl completion zsh)
+fi
+if [[ $commands[helm] ]]; then
+  source <(helm completion zsh)
+fi
 
 # set up rust
 if test -f "$HOME/.cargo/env"; then
