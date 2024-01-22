@@ -4,7 +4,7 @@ export PATH="$PATH:$HOME/.asdf/bin"
 
 
 {{- if ne .chezmoi.hostname .hosts.kali }}
-export EDITOR="code"
+export EDITOR="code --wait"
 {{- else }}
 export EDITOR="code-oss --wait --disable-keytar"
 {{- end }}
