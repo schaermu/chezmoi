@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 tools_apt=(
     git
-    direnv
     htop
     zsh
     zsh-syntax-highlighting
@@ -11,9 +10,13 @@ tools_apt=(
     exa
 )
 
-mkdir -p {{ .chezmoi.homeDir }}/.zfunc
+tools_non_apt=(
+    direnv
+)
 
+mkdir -p {{ .chezmoi.homeDir }}/.zfunc
 sudo apt-get update && sudo apt-get install -y "${tools_apt[@]}"
+sudo apt-get remove -y "${tools_non_apt[@]}"
 if [[ $SHELL != *"zsh"* ]]; then
     sudo chsh -s /usr/bin/zsh $(whoami)
 fi
@@ -30,6 +33,14 @@ if [[ -f "{{ .chezmoi.homeDir }}/antigen.zsh" ]]; then
     echo "Skipping antigen download..."
 else
     curl -L git.io/antigen > antigen.zsh
+fi
+
+# direnv
+if [[ -f "{{ .chezmoi.homeDir }}/.local/bin/direnv" ]]; then
+    echo "Skipping direnv download..."
+else
+    export bin_path={{ .chezmoi.homeDir }}/.local/bin
+    curl -sfL https://direnv.net/install.sh | bash
 fi
 
 # asdf

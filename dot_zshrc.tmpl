@@ -45,7 +45,7 @@ source ~/.zshenv
 source ~/.shell_aliases
 
 # Bring in direnv hooks.
-eval "$($ASDF_DIRENV_BIN hook zsh)"
+eval "$(direnv hook zsh)"
 
 {{- if .wsl }}
 # fix for WSL/WT to keep the current path (https://docs.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory)
