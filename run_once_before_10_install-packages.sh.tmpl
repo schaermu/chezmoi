@@ -54,10 +54,12 @@ else
     {{ .chezmoi.homeDir }}/.asdf/bin/asdf direnv setup --no-touch-rc-file --shell zsh --version system
 fi
 
-# rust
+# rust (only on non-work devices)
+{{- if ne .chezmoi.hostname .hosts.work }}
 if [[ -d "{{ .chezmoi.homeDir }}/.cargo" ]]; then
     echo "Skipping rust download..."
 else
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
     rustup completions zsh > {{ .chezmoi.homeDir }}/.zfunc/_rustup
 fi
+{{- end }}
