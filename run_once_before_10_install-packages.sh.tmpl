@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 tools_apt=(
     git
-    direnv
     htop
     zsh
     zsh-syntax-highlighting
@@ -11,7 +10,13 @@ tools_apt=(
     exa
 )
 
+tools_non_apt=(
+    direnv
+)
+
+mkdir -p {{ .chezmoi.homeDir }}/.zfunc
 sudo apt-get update && sudo apt-get install -y "${tools_apt[@]}"
+sudo apt-get remove -y "${tools_non_apt[@]}"
 if [[ $SHELL != *"zsh"* ]]; then
     sudo chsh -s /usr/bin/zsh $(whoami)
 fi
@@ -30,8 +35,16 @@ else
     curl -L git.io/antigen > antigen.zsh
 fi
 
+# direnv
+if [[ -f "{{ .chezmoi.homeDir }}/.local/bin/direnv" ]]; then
+    echo "Skipping direnv download..."
+else
+    export bin_path={{ .chezmoi.homeDir }}/.local/bin
+    curl -sfL https://direnv.net/install.sh | bash
+fi
+
 # asdf
-if [[ -f "{{ .chezmoi.homeDir }}/.asdf" ]]; then
+if [[ -d "{{ .chezmoi.homeDir }}/.asdf" ]]; then
     echo "Skipping asdf download..."
 else
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
@@ -39,4 +52,12 @@ else
     # direnv plugin installation
     {{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin-add direnv
     {{ .chezmoi.homeDir }}/.asdf/bin/asdf direnv setup --no-touch-rc-file --shell zsh --version system
+fi
+
+# rust
+if [[ -d "{{ .chezmoi.homeDir }}/.cargo" ]]; then
+    echo "Skipping rust download..."
+else
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+    rustup completions zsh > {{ .chezmoi.homeDir }}/.zfunc/_rustup
 fi

@@ -11,6 +11,7 @@ setopt autocd extendedglob
 bindkey -e
 
 # pull in asdf
+fpath+=~/.zfunc
 zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit
@@ -26,12 +27,25 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
+# bring in auto completion for kubectl and helm
+if [[ $commands[kubectl] ]]; then
+  source <(kubectl completion zsh)
+fi
+if [[ $commands[helm] ]]; then
+  source <(helm completion zsh)
+fi
+
+# set up rust
+if test -f "$HOME/.cargo/env"; then
+  source "$HOME/.cargo/env"
+fi
+
 # Bring in env vars and aliases.
 source ~/.zshenv
 source ~/.shell_aliases
 
 # Bring in direnv hooks.
-eval "$($ASDF_DIRENV_BIN hook zsh)"
+eval "$(direnv hook zsh)"
 
 # setup omnisharp env vars
 export DOTNET_ROOT="$(asdf where dotnet-core)"
