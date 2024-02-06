@@ -33,6 +33,12 @@ source ~/.shell_aliases
 # Bring in direnv hooks.
 eval "$($ASDF_DIRENV_BIN hook zsh)"
 
+# setup omnisharp env vars
+export DOTNET_ROOT="$(asdf where dotnet-core)"
+export DOTNET_MSBUILD_SDK_RESOLVER_SDKS_VER="$(basename $DOTNET_ROOT)"
+export DOTNET_MSBUILD_SDK_RESOLVER_SDKS_DIR="$DOTNET_ROOT/sdk/$DOTNET_MSBUILD_SDK_RESOLVER_SDKS_VER/Sdks"
+export DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR="$DOTNET_ROOT"
+
 {{- if .wsl }}
 # fix for WSL/WT to keep the current path (https://docs.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory)
 keep_current_path() {

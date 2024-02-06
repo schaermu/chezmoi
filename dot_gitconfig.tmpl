@@ -24,7 +24,7 @@ smudge = git-lfs smudge -- %f
 [init]
 defaultBranch = main
 
-{{ if eq .chezmoi.hostname .hosts.kali }}
+{{ if (or (eq .chezmoi.hostname .hosts.kali) (eq .chezmoi.hostname .hosts.work)) }}
 [credential "https://github.com"]
 helper = 
 helper = !/usr/bin/gh auth git-credential
