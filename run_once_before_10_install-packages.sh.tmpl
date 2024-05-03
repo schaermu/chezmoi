@@ -14,6 +14,13 @@ tools_non_apt=(
     direnv
 )
 
+# move chezmoi if installed in default location
+if [[ -f "{{ .chezmoi.homeDir }}/bin/chezmoi" ]]; then
+    sudo mv "{{ .chezmoi.homeDir }}/bin/chezmoi" /usr/local/bin/
+    sudo rm -rf "{{ .chezmoi.homeDir }}/bin"
+fi
+
+mkdir -p {{ .chezmoi.homeDir }}/.local/bin
 mkdir -p {{ .chezmoi.homeDir }}/.zfunc
 sudo apt-get update && sudo apt-get install -y "${tools_apt[@]}"
 sudo apt-get remove -y "${tools_non_apt[@]}"
