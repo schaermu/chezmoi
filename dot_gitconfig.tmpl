@@ -1,18 +1,8 @@
-{{ if eq .chezmoi.hostname .hosts.work }}
-[user]
-name = Stefan Schärmeli, IT12.1
-email = stefan.schaermeli@post.ch
-
-[includeIf "gitdir:~/projects/privat/"]
-path = ~/.gitconfig.d/personal
-[includeIf "gitdir:~/.local/share/chezmoi/"]
-path = ~/.gitconfig.d/personal
-{{ else }}
 [user]
 name = Stefan Schärmeli
 email = schaermu@pm.me
 signingKey = 49FAF0C65506CE60FC383FF7EAC95683A32610DA!
-{{ end }}
+
 [credential]
 helper = store
 
