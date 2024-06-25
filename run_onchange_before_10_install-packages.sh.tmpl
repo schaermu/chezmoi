@@ -6,7 +6,6 @@ tools_apt=(
     zsh-syntax-highlighting
     ripgrep
     jq
-    age
     exa
 )
 
@@ -67,12 +66,20 @@ else
     {{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add nodejs
 fi
 
-# rust (only on non-work devices)
-{{- if ne .chezmoi.hostname .hosts.work }}
+# rust
 if [[ -d "{{ .chezmoi.homeDir }}/.cargo" ]]; then
     echo "Skipping rust download..."
 else
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
     rustup completions zsh > {{ .chezmoi.homeDir }}/.zfunc/_rustup
 fi
-{{- end }}
+
+# bitwarden cli
+if [[ -f "{{ .chezmoi.homeDir }}/.local/bin/bw" ]]; then
+    echo "Skipping bitwarden cli download..."
+else
+    curl -L https://vault.bitwarden.com/download/?app=cli&platform=linux -o bw.zip
+    unzip bw.zip
+    sudo mv bw {{ .chezmoi.homeDir }}/.local/bin/ && rm bw.zip
+    bw completion --shell zsh > {{ .chezmoi.homeDir }}/.zfunc/_bw
+fi

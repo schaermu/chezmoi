@@ -16,3 +16,7 @@ export dirsmall='/usr/share/wordlists/dirbuster/directory-list-2.3-small.txt'
 export dirmed='/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt'
 export rockyou='/usr/share/wordlists/rockyou.txt'
 {{- end}}
+
+if [[ -f $HOME/.zshenv.local ]]; then
+  source $HOME/.zshenv.local
+fi

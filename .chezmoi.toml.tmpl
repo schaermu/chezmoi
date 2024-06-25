@@ -5,11 +5,11 @@
 {{-   end }}
 {{- end }}
 
-encryption = "age"
-
-[age]
-    identity = "~/key.txt"
-    recipient = "age1q43h75rusqwxczl2ve0ulrg6x73xchxvp5ctyy4qqdg0udle03csanp0er"
+{{ $bwclisecret := promptStringOnce . "bwclisecret" "What's the Bitwarden API client secret" -}}
 
 [data]
     wsl = {{ $wsl }}
+
+[scriptEnv]
+    BW_CLIENTID = "user.40c5ce89-e0c9-4719-8aa0-06eecf440917"
+    BW_CLIENTSECRET = {{ $bwclisecret | quote }}
