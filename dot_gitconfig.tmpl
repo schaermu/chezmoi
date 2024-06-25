@@ -3,6 +3,9 @@ name = Stefan Schärmeli
 email = 519494+schaermu@users.noreply.github.com
 signingKey = DBE70CE034EC62B9
 
+[commit]
+gpgsign = true
+
 [credential]
 helper = store
 
@@ -14,9 +17,6 @@ smudge = git-lfs smudge -- %f
 
 [init]
 defaultBranch = main
-
-[commit]
-gpgsign = true
 
 {{ if eq .chezmoi.hostname .hosts.kali }}
 [credential "https://github.com"]
