@@ -11,5 +11,9 @@
     wsl = {{ $wsl }}
 
 [scriptEnv]
+    BW_SERVER = "https://vault.hpfr.ch"
     BW_CLIENTID = "user.40c5ce89-e0c9-4719-8aa0-06eecf440917"
     BW_CLIENTSECRET = {{ $bwclisecret | quote }}
+
+[hooks.read-source-state.pre]
+    command = ".local/share/chezmoi/.install-password-manager.sh"
