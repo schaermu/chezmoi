@@ -36,6 +36,9 @@ if test -f "$HOME/.cargo/env"; then
 fi
 
 # Bring in env vars and aliases.
+if [[ -f ~/.bwenv ]]; then
+  source ~/.bwenv
+fi
 source ~/.zshenv
 source ~/.shell_aliases
 
