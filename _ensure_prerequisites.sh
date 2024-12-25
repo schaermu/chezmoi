@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 install () {
-    # exit immediately if  is already in $PATH
+    # exit immediately if bw is already in $PATH
     type bw >/dev/null 2>&1 && return 0
 
     echo "installing bitwarden cli..."  
@@ -24,11 +25,12 @@ install () {
 export PATH=$PATH:~/.local/bin
 
 # install & configure bitwarden cli
-vault_url="https://vault.hpfr.ch"
+: ${VAULT_URL:="https://vault.hpfr.ch"}
+: ${VAULT_EMAIL:="schaermu@protonmail.com"}
 install
-if ! bw status | grep -q "$vault_url"; then
-    bw config server "$vault_url"
-    bw login
+if ! bw status | grep -q "\"authenticated\""; then
+    bw config server "$VAULT_URL"
+    bw login $VAULT_EMAIL --raw
 fi
 
 # configure base environment variables
