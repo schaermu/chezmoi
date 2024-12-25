@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# git-private-key.asc hash: {{ include "private_dot_keys/gpg/private_git-private-key.asc.tmpl" | sha256sum }}
+
+# make sure bitwarden is logged in and unlocked
+if ! bw status | grep -q "unlocked"; then
+  echo "Bitwarden is not unlocked. Please unlock it first."
+  exit 1
+fi
+
+gpg --import --passphrase {{ (bitwardenFields "item" (bitwarden "item" .bw_chezmoi_item_name).id).gpg_passphrase.value | quote }} --pinentry-mode=loopback ~/.keys/gpg/{{- .bw_gpg_private_key_filename }}
+
+bw lock
