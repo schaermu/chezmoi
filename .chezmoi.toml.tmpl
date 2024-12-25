@@ -15,6 +15,3 @@
     bw_gpg_private_key_filename = "git-private-key.asc"
 
     git_signing_key = {{ (bitwardenFields "item" (bitwarden "item" "chezmoi").id).git_signing_key_id.value | quote }}
-
-[hooks.read-source-state.pre]
-    command = ".local/share/chezmoi/.install-password-manager.sh"
