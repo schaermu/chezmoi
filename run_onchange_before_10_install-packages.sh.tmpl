@@ -23,6 +23,10 @@ tools_apt=(
     ripgrep
     jq
     exa
+    gpg
+    gpg-agent
+    gpgconf
+    pinentry-gtk2 -y
 )
 
 tools_non_apt=(
@@ -46,12 +50,12 @@ fi
 # install/update starship prompt
 curl -sS https://starship.rs/install.sh | sh -s -- --yes
 
-# install/update antigen
-curl -L git.io/antigen > antigen.zsh
-
 # install/update direnv
 export bin_path={{ .chezmoi.homeDir }}/.local/bin
 curl -sfL https://direnv.net/install.sh | bash
+
+# install/update antigen
+curl -L git.io/antigen > antigen.zsh
 
 # install or update asdf
 if [[ -d "{{ .chezmoi.homeDir }}/.asdf" ]]; then

@@ -5,23 +5,26 @@ SAVEHIST=1000
 setopt autocd extendedglob
 bindkey -e
 
+# enable passphrase prompt for gpg
+export GPG_TTY=$(tty)
+echo "test" | gpg --clearsign > /dev/null 2>&1
+
 # pull in asdf
+. "$HOME/.asdf/asdf.sh"
+
+fpath=(${ASDF_DIR}/completions $fpath)
 fpath+=~/.zfunc
 zstyle :compinstall filename "$HOME/.zshrc"
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit
+
 
 # Antigen
 source ~/antigen.zsh
-antigen selfupdate
-
 antigen use oh-my-zsh
 antigen bundle git
 antigen bundle pip
-antigen bundle asdf
 antigen bundle asdf-direnv
 antigen bundle zsh-users/zsh-syntax-highlighting
-
 antigen apply
 
 # bring in auto completion for kubectl and helm

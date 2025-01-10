@@ -4,9 +4,6 @@ export PATH="$PATH:$HOME/.asdf/shims"
 
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
 
-# enable passphrase prompt for gpg
-export GPG_TTY=$(tty)
-
 {{- if ne .chezmoi.hostname .hosts.kali }}
 export EDITOR="code --wait"
 {{- else }}
