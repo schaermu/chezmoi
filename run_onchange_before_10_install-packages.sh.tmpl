@@ -27,44 +27,38 @@ if [[ $SHELL != *"zsh"* ]]; then
     sudo chsh -s $(which zsh) $(whoami)
 fi
 
-# starship prompt
-if [[ -f "/usr/local/bin/starship" ]]; then
-    echo "Skipping starship download..."
-else
-    curl -sS https://starship.rs/install.sh | sh -s -- --yes
-fi
+# install/update starship prompt
+curl -sS https://starship.rs/install.sh | sh -s -- --yes
 
-# antigen
+# install/update antigen
 if [[ -f "{{ .chezmoi.homeDir }}/antigen.zsh" ]]; then
-    echo "Skipping antigen download..."
+    echo "Updating antigen installation..."
+    antigen selfupdate
 else
     curl -L git.io/antigen > antigen.zsh
 fi
 
-# direnv
-if [[ -f "{{ .chezmoi.homeDir }}/.local/bin/direnv" ]]; then
-    echo "Skipping direnv download..."
-else
-    export bin_path={{ .chezmoi.homeDir }}/.local/bin
-    curl -sfL https://direnv.net/install.sh | bash
-fi
+# install/update direnv
+export bin_path={{ .chezmoi.homeDir }}/.local/bin
+curl -sfL https://direnv.net/install.sh | bash
 
-# asdf
+# install or update asdf
 if [[ -d "{{ .chezmoi.homeDir }}/.asdf" ]]; then
-    echo "Skipping asdf download..."
+    echo "Updating asdf installation..."
+    git -C ~/.asdf pull origin
 else
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
-
-    # direnv plugin installation
-    {{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add direnv
-    {{ .chezmoi.homeDir }}/.asdf/bin/asdf direnv setup --no-touch-rc-file --shell zsh --version system
-
-    # python, rust, golang and node plugins
-    {{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add python
-    {{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add rust
-    {{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add golang
-    {{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add nodejs
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 fi
+
+# direnv plugin installation
+{{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add direnv
+{{ .chezmoi.homeDir }}/.asdf/bin/asdf direnv setup --no-touch-rc-file --shell zsh --version system
+
+# python, rust, golang and node plugins
+{{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add python
+{{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add rust
+{{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add golang
+{{ .chezmoi.homeDir }}/.asdf/bin/asdf plugin add nodejs
 
 # rust
 if [[ -d "{{ .chezmoi.homeDir }}/.cargo" ]]; then
